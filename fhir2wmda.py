@@ -135,7 +135,7 @@ def get_genotype_gl_string(observation: dict[str, Any]) -> str | None:
 def normalize_allele(raw: str) -> str:
     """
     Examples:
-      HLA-A:01:01G     -> 01:01G
+      HLA-A:01:01      -> 01:01
       HLA-A*01:02      -> 01:02
       HLA-B*15:01:01G  -> 15:01:01G
       HLA-C*03:04:01G  -> 03:04:01G
