@@ -135,15 +135,23 @@ def get_genotype_gl_string(observation: dict[str, Any]) -> str | None:
 def normalize_allele(raw: str) -> str:
     """
     Examples:
-      HLA-A:01:01G     -> 01:01
+      HLA-A:01:01G     -> 01:01 -- invalid
       HLA-A*01:02      -> 01:02
-      HLA-B*15:01:01G  -> 15:01
-      HLA-C*03:04:01G  -> 03:04
+      HLA-B*15:01:01G  -> 15:01:01G
+      HLA-C*03:04:01G  -> 03:04:01G
     """
-    m = re.search(r'(\d{2,3}):(\d{2,3})', raw)
-    if not m:
-        return raw
-    return f"{m.group(1)}:{m.group(2)}"
+  """
+  reduces the information too much and can't handle the nomenclature correctly 
+  m = re.search(r'(\d{2,3}):(\d{2,3})', raw)
+  proposed update:
+  m = re.sub(r'^HLA-[A-Z]+[:*]', '', raw.strip())
+  """  
+  # Remove "HLA-" prefix and gene name (A, B, C, etc.)
+  m = re.sub(r'^HLA-[A-Z]+[:*]', '', raw.strip())
+
+  if not m:
+      return raw
+  return f"{m.group(1)}:{m.group(2)}"
 
 
 def parse_gl_string(gl_string: str) -> list[str]:
