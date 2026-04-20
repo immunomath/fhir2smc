@@ -27,7 +27,7 @@ Examples:
     python fhir_to_wmda_post.py Fhir_Input.json --post --base-url https://api.example.org \
         --token YOUR_TOKEN --legal-terms
 
-Dependencies:
+Optional dependency for HTTP POST support:
     pip install requests
 """
 
@@ -39,8 +39,6 @@ import re
 import sys
 from pathlib import Path
 from typing import Any
-
-import requests
 
 
 SEX_MAP = {
@@ -244,7 +242,15 @@ def build_payload(
     return compact(payload)
 
 
-def post_to_wmda(payload: dict[str, Any], base_url: str, token: str | None, timeout: int = 30) -> requests.Response:
+def post_to_wmda(payload: dict[str, Any], base_url: str, token: str | None, timeout: int = 30):
+    try:
+        import requests
+    except ImportError as exc:
+        raise SystemExit(
+            "The optional dependency 'requests' is required for --post. "
+            "Install it with: pip install requests"
+        ) from exc
+
     url = base_url.rstrip("/") + "/patients/createPatient"
     headers = {
         "Content-Type": "application/json",
