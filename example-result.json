@@ -1,0 +1,21 @@
+# python3 fhir2wmda.py Fhir_Input.json --pretty
+{
+  "patientId": "12345",
+  "hla": {
+    "a": {
+      "field1": "01:01",
+      "field2": "01:02"
+    },
+    "b": {
+      "field1": "15:01",
+      "field2": "57:01"
+    },
+    "c": {
+      "field1": "01:02",
+      "field2": "03:04"
+    }
+  },
+  "dateOfBirth": "1986-12-31",
+  "sex": "M"
+}
+
